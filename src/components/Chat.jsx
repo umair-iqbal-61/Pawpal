@@ -123,13 +123,13 @@ ${recentVetVisits?.length
       </div>
 
       {/* Input */}
-      <form onSubmit={handleSubmit} className="flex gap-2">
+      <form onSubmit={handleSubmit} className="flex gap-2 px-0">
         <input
           value={input}
           onChange={e => setInput(e.target.value)}
           placeholder={`Ask about ${pet.name}...`}
           disabled={loading}
-          className="flex-1 border rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-violet-400 disabled:opacity-50"
+          className="flex-1 min-w-0 border dark:border-gray-700 dark:bg-gray-800 dark:text-white rounded-xl px-3 sm:px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-violet-400"
         />
         <button type="submit" disabled={loading || !input.trim()}
           className="bg-violet-600 text-white px-4 py-2.5 rounded-xl text-sm font-medium hover:bg-violet-700 disabled:opacity-40 transition-colors">

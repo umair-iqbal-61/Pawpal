@@ -81,10 +81,12 @@ export default function PetDetail() {
       </div>
 
       {/* Tabs */}
-      <div className="flex gap-1 bg-gray-100 rounded-xl p-1 mb-4">
+      <div className="flex gap-1 bg-gray-100 dark:bg-gray-800 rounded-xl p-1 mb-4 overflow-x-auto">
         {TABS.map(tab => (
           <button key={tab} onClick={() => setActiveTab(tab)}
-            className={`flex-1 text-xs py-2 rounded-lg font-medium transition-colors ${activeTab === tab ? 'bg-white text-violet-700 shadow-sm' : 'text-gray-500 hover:text-gray-700'
+            className={`flex-shrink-0 text-xs py-2 px-3 rounded-lg font-medium transition-colors whitespace-nowrap ${activeTab === tab
+              ? 'bg-white dark:bg-gray-900 text-violet-700 dark:text-violet-400 shadow-sm'
+              : 'text-gray-500 hover:text-gray-700 dark:text-gray-400'
               }`}>
             {tab}
           </button>

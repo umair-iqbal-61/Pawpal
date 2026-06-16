@@ -46,7 +46,7 @@ export default function AddPet() {
           <input className={inputClass} placeholder="e.g. Bruno" value={form.name} onChange={set('name')} required />
         </div>
 
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
             <label className="text-sm text-gray-600 mb-1 block">Species *</label>
             <select className={inputClass} value={form.species} onChange={set('species')}>
@@ -66,7 +66,7 @@ export default function AddPet() {
           <input className={inputClass} placeholder="e.g. Golden Retriever" value={form.breed} onChange={set('breed')} />
         </div>
 
-        <div className="grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           <div>
             <label className="text-sm text-gray-600 mb-1 block">Age (years)</label>
             <input className={inputClass} type="number" min="0" step="0.1" placeholder="e.g. 3" value={form.age} onChange={set('age')} />

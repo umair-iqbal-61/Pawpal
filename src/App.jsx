@@ -9,7 +9,7 @@ import AddPet from './pages/pets/AddPet'
 import PetDetail from './pages/pets/PetDetail'
 import ProtectedRoute from './components/ProtectedRoute'
 import { useReminders } from './hooks/useReminders'
-import Landing from './pages/LandingPage'
+import Landing from './pages/Landing'
 
 export default function App() {
   useReminders()
