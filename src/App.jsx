@@ -9,6 +9,7 @@ import AddPet from './pages/pets/AddPet'
 import PetDetail from './pages/pets/PetDetail'
 import ProtectedRoute from './components/ProtectedRoute'
 import { useReminders } from './hooks/useReminders'
+import Landing from './pages/LandingPage'
 
 export default function App() {
   useReminders()
@@ -32,6 +33,7 @@ export default function App() {
   return (
     <BrowserRouter>
       <Routes>
+        <Route path="/" element={!session ? <Landing /> : <Navigate to="/dashboard" />} />
         <Route path="/login" element={!session ? <Login /> : <Navigate to="/dashboard" />} />
         <Route path="/signup" element={!session ? <Signup /> : <Navigate to="/dashboard" />} />
         <Route path="/dashboard" element={<Protected><PetList /></Protected>} />
