@@ -8,9 +8,11 @@ PawPal is a full-stack SaaS application that helps pet owners track their pet's 
 
 ## Screenshots
 
-![Landing page](<img width="1896" height="5187" alt="Image" src="https://github.com/user-attachments/assets/6363e471-2d35-46e9-bd29-5ecd04df2ca5" />)
-![Dashboard](<img width="1896" height="2760" alt="Image" src="https://github.com/user-attachments/assets/8aeec1a4-91b2-40cc-b3d7-8779c5cbff88" />)
-![AI Chat](<img width="1896" height="1596" alt="Image" src="https://github.com/user-attachments/assets/1cfacd4f-743f-4078-9b63-39c822af4a53" />)
+![Landing page](https://github.com/user-attachments/assets/6363e471-2d35-46e9-bd29-5ecd04df2ca5)
+
+![Dashboard](https://github.com/user-attachments/assets/8aeec1a4-91b2-40cc-b3d7-8779c5cbff88)
+
+![AI Chat](https://github.com/user-attachments/assets/1cfacd4f-743f-4078-9b63-39c822af4a53)
 
 ---
 
