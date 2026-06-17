@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
+import { Link } from 'react-router-dom'
 import { supabase } from '../../lib/supabase'
 import MealLog from '../../components/tracking/MealLog'
 import WeightLog from '../../components/tracking/WeightLog'
@@ -131,6 +132,18 @@ export default function PetDetail() {
             <p className="text-sm text-gray-700 dark:text-gray-300">{pet.notes}</p>
           </div>
         )}
+
+        {/* Edit and Delete Pet Button */}
+        <div className="mt-4 pt-4 border-t border-gray-100 dark:border-gray-800 flex justify-between items-center">
+          <Link to={`/pets/${id}/edit`}
+            className="text-sm text-violet-600 dark:text-violet-400 hover:underline">
+            Edit profile
+          </Link>
+          <button onClick={handleDelete}
+            className="text-sm text-red-400 hover:text-red-600 dark:text-red-500 dark:hover:text-red-400 transition-colors">
+            Delete {pet.name}
+          </button>
+        </div>
       </div>
 
       {/* Tabs */}
@@ -160,10 +173,6 @@ export default function PetDetail() {
             <hr className="border-gray-100 dark:border-gray-800" />
             <Reminders petId={id} />
             <hr className="border-gray-100 dark:border-gray-800" />
-            <button onClick={handleDelete}
-              className="w-full text-sm text-red-400 hover:text-red-600 dark:text-red-500 dark:hover:text-red-400 py-2 rounded-xl border border-red-100 dark:border-red-900/30 hover:border-red-300 dark:hover:border-red-700 transition-colors">
-              Delete {pet.name}
-            </button>
             <hr className="border-gray-100 dark:border-gray-800" />
             <PhotoGallery petId={id} />
           </div>
