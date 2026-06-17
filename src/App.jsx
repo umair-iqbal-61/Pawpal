@@ -10,6 +10,7 @@ import PetDetail from './pages/pets/PetDetail'
 import ProtectedRoute from './components/ProtectedRoute'
 import { useReminders } from './hooks/useReminders'
 import Landing from './pages/Landing'
+import AuthCallback from './pages/AuthCallback'
 
 export default function App() {
   useReminders()
@@ -40,6 +41,7 @@ export default function App() {
         <Route path="/pets/add" element={<Protected><AddPet /></Protected>} />
         <Route path="/pets/:id" element={<Protected><PetDetail /></Protected>} />
         <Route path="*" element={<Navigate to={session ? "/dashboard" : "/login"} />} />
+        <Route path="/auth/callback" element={<AuthCallback />} />
       </Routes>
     </BrowserRouter>
   )
