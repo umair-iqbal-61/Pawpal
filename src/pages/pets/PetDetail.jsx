@@ -7,9 +7,12 @@ import VetVisits from '../../components/tracking/VetVisits'
 import Reminders from '../../components/tracking/Reminders'
 import Chat from '../../components/Chat'
 import WeightChart from '../../components/tracking/WeightChart'
+import { uploadPetPhoto } from '../../lib/storage'
+import { useRef } from 'react'
+import PhotoGallery from '../../components/tracking/PhotoGallery'
 
 const SPECIES_EMOJI = { dog: '🐶', cat: '🐱', bird: '🐦', fish: '🐟', rabbit: '🐰', other: '🐾' }
-const TABS = ['Overview', 'Meals', 'Weight', 'Chart', 'Vet Visits', 'Reminders', 'AI Chat']
+const TABS = ['Overview', 'Meals', 'Weight', 'Chart', 'Vet Visits', 'Reminders', 'Photos', 'AI Chat']
 
 export default function PetDetail() {
   const { id } = useParams()
@@ -18,6 +21,20 @@ export default function PetDetail() {
   const [loading, setLoading] = useState(true)
   const [activeTab, setActiveTab] = useState('Overview')
   const [chatData, setChatData] = useState({ meals: [], weight: [], vets: [] })
+  const avatarRef = useRef()
+
+  const handleAvatarUpload = async (e) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+    try {
+      const { data: { user } } = await supabase.auth.getUser()
+      const url = await uploadPetPhoto(file, user.id, id)
+      await supabase.from('pets').update({ avatar_url: url }).eq('id', id)
+      setPet(p => ({ ...p, avatar_url: url }))
+    } catch (err) {
+      console.error(err)
+    }
+  }
 
   useEffect(() => {
     const fetchAll = async () => {
@@ -67,9 +84,19 @@ export default function PetDetail() {
       {/* Pet header */}
       <div className="bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-800 rounded-2xl shadow-sm p-6 mb-4">
         <div className="flex items-center gap-4">
-          <div className="w-16 h-16 rounded-full bg-violet-100 dark:bg-violet-900/50 flex items-center justify-center text-3xl flex-shrink-0">
-            {emoji}
+          <div
+            className="w-16 h-16 rounded-full bg-violet-100 dark:bg-violet-900/50 flex items-center justify-center text-3xl flex-shrink-0 cursor-pointer relative group overflow-hidden"
+            onClick={() => avatarRef.current?.click()}>
+            {pet.avatar_url
+              ? <img src={pet.avatar_url} className="w-full h-full object-cover" alt={pet.name} />
+              : <span>{emoji}</span>
+            }
+            <div className="absolute inset-0 bg-black/30 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+              <span className="text-white text-xs">📷</span>
+            </div>
           </div>
+          <input ref={avatarRef} type="file" accept="image/*" className="hidden" onChange={handleAvatarUpload} />
+
           <div className="flex-1 min-w-0">
             <h2 className="text-xl font-bold text-gray-900 dark:text-white truncate">{pet.name}</h2>
             <p className="text-gray-500 dark:text-gray-400 text-sm capitalize">
@@ -137,6 +164,8 @@ export default function PetDetail() {
               className="w-full text-sm text-red-400 hover:text-red-600 dark:text-red-500 dark:hover:text-red-400 py-2 rounded-xl border border-red-100 dark:border-red-900/30 hover:border-red-300 dark:hover:border-red-700 transition-colors">
               Delete {pet.name}
             </button>
+            <hr className="border-gray-100 dark:border-gray-800" />
+            <PhotoGallery petId={id} />
           </div>
         )}
         {activeTab === 'Meals' && <MealLog petId={id} />}
@@ -154,6 +183,7 @@ export default function PetDetail() {
             recentVetVisits={chatData.vets}
           />
         )}
+        {activeTab === 'Photos' && <PhotoGallery petId={id} />}
 
       </div>
     </div>
