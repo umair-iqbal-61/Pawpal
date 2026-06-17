@@ -6,9 +6,10 @@ import WeightLog from '../../components/tracking/WeightLog'
 import VetVisits from '../../components/tracking/VetVisits'
 import Reminders from '../../components/tracking/Reminders'
 import Chat from '../../components/Chat'
+import WeightChart from '../../components/tracking/WeightChart'
 
 const SPECIES_EMOJI = { dog: '🐶', cat: '🐱', bird: '🐦', fish: '🐟', rabbit: '🐰', other: '🐾' }
-const TABS = ['Overview', 'Meals', 'Weight', 'Vet Visits', 'Reminders', 'AI Chat']
+const TABS = ['Overview', 'Meals', 'Weight', 'Chart', 'Vet Visits', 'Reminders', 'AI Chat']
 
 export default function PetDetail() {
   const { id } = useParams()
@@ -110,8 +111,8 @@ export default function PetDetail() {
         {TABS.map(tab => (
           <button key={tab} onClick={() => setActiveTab(tab)}
             className={`flex-shrink-0 text-xs py-2 px-3 rounded-lg font-medium transition-colors whitespace-nowrap ${activeTab === tab
-                ? 'bg-white dark:bg-gray-900 text-violet-700 dark:text-violet-400 shadow-sm'
-                : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'
+              ? 'bg-white dark:bg-gray-900 text-violet-700 dark:text-violet-400 shadow-sm'
+              : 'text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300'
               }`}>
             {tab}
           </button>
@@ -126,6 +127,8 @@ export default function PetDetail() {
             <hr className="border-gray-100 dark:border-gray-800" />
             <WeightLog petId={id} />
             <hr className="border-gray-100 dark:border-gray-800" />
+            <WeightChart petId={id} petName={pet.name} />
+            <hr className="border-gray-100 dark:border-gray-800" />
             <VetVisits petId={id} />
             <hr className="border-gray-100 dark:border-gray-800" />
             <Reminders petId={id} />
@@ -138,6 +141,9 @@ export default function PetDetail() {
         )}
         {activeTab === 'Meals' && <MealLog petId={id} />}
         {activeTab === 'Weight' && <WeightLog petId={id} />}
+        {activeTab === 'Chart' && (
+          <WeightChart petId={id} petName={pet.name} />
+        )}
         {activeTab === 'Vet Visits' && <VetVisits petId={id} />}
         {activeTab === 'Reminders' && <Reminders petId={id} />}
         {activeTab === 'AI Chat' && (
@@ -148,6 +154,7 @@ export default function PetDetail() {
             recentVetVisits={chatData.vets}
           />
         )}
+
       </div>
     </div>
   )
