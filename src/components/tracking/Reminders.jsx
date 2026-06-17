@@ -33,10 +33,7 @@ export default function Reminders({ petId }) {
   }
 
   const toggleDay = (day) => {
-    if (day === 'daily') {
-      setForm(f => ({ ...f, days: ['daily'] }))
-      return
-    }
+    if (day === 'daily') { setForm(f => ({ ...f, days: ['daily'] })); return }
     setForm(f => {
       const days = f.days.filter(d => d !== 'daily')
       return {
@@ -68,29 +65,29 @@ export default function Reminders({ petId }) {
     fetchReminders()
   }
 
-  const inputClass = "border rounded-xl px-3 py-2 text-sm w-full focus:outline-none focus:ring-2 focus:ring-violet-400"
+  const inputClass = "border dark:border-gray-700 rounded-xl px-3 py-2 text-sm w-full bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-400 dark:placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-violet-400"
 
   return (
     <div>
       <div className="flex justify-between items-center mb-4">
-        <h3 className="font-semibold text-gray-800">🔔 Reminders</h3>
+        <h3 className="font-semibold text-gray-800 dark:text-white">🔔 Reminders</h3>
         <button onClick={() => setShowForm(!showForm)}
-          className="text-xs bg-violet-600 text-white px-3 py-1.5 rounded-lg hover:bg-violet-700">
+          className="text-xs bg-violet-600 text-white px-3 py-1.5 rounded-lg hover:bg-violet-700 transition-colors">
           + Add Reminder
         </button>
       </div>
 
       {/* Notification permission banner */}
       {notifStatus !== 'granted' && (
-        <div className="bg-amber-50 border border-amber-200 rounded-xl p-3 mb-4 flex justify-between items-center">
-          <p className="text-xs text-amber-700">
+        <div className="bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800/30 rounded-xl p-3 mb-4 flex justify-between items-center">
+          <p className="text-xs text-amber-700 dark:text-amber-400">
             {notifStatus === 'denied'
               ? '🚫 Notifications blocked. Enable them in browser settings.'
               : '🔔 Enable notifications to get reminder alerts'}
           </p>
           {notifStatus !== 'denied' && (
             <button onClick={requestNotifPermission}
-              className="text-xs bg-amber-500 text-white px-3 py-1.5 rounded-lg hover:bg-amber-600 ml-3 whitespace-nowrap">
+              className="text-xs bg-amber-500 text-white px-3 py-1.5 rounded-lg hover:bg-amber-600 ml-3 whitespace-nowrap transition-colors">
               Enable
             </button>
           )}
@@ -99,13 +96,14 @@ export default function Reminders({ petId }) {
 
       {/* Add form */}
       {showForm && (
-        <form onSubmit={handleAdd} className="bg-violet-50 rounded-xl p-4 mb-4 flex flex-col gap-3">
+        <form onSubmit={handleAdd}
+          className="bg-violet-50 dark:bg-violet-900/20 border border-violet-100 dark:border-violet-800/30 rounded-xl p-4 mb-4 flex flex-col gap-3">
           <input className={inputClass} placeholder="Reminder title *" value={form.title}
             onChange={e => setForm(f => ({ ...f, title: e.target.value }))} required />
 
-          <div className="grid grid-cols-2 gap-2">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
             <div>
-              <label className="text-xs text-gray-500 mb-1 block">Type</label>
+              <label className="text-xs text-gray-500 dark:text-gray-400 mb-1 block">Type</label>
               <select className={inputClass} value={form.reminder_type}
                 onChange={e => setForm(f => ({ ...f, reminder_type: e.target.value }))}>
                 {TYPES.map(t => (
@@ -114,7 +112,7 @@ export default function Reminders({ petId }) {
               </select>
             </div>
             <div>
-              <label className="text-xs text-gray-500 mb-1 block">Time</label>
+              <label className="text-xs text-gray-500 dark:text-gray-400 mb-1 block">Time</label>
               <input className={inputClass} type="time" value={form.remind_at}
                 onChange={e => setForm(f => ({ ...f, remind_at: e.target.value }))} required />
             </div>
@@ -122,22 +120,22 @@ export default function Reminders({ petId }) {
 
           {/* Day picker */}
           <div>
-            <label className="text-xs text-gray-500 mb-2 block">Repeat</label>
+            <label className="text-xs text-gray-500 dark:text-gray-400 mb-2 block">Repeat</label>
             <div className="flex gap-1.5 flex-wrap">
-              <button type="button"
-                onClick={() => toggleDay('daily')}
+              <button type="button" onClick={() => toggleDay('daily')}
                 className={`px-3 py-1 rounded-lg text-xs font-medium transition-colors ${
-                  form.days.includes('daily') ? 'bg-violet-600 text-white' : 'bg-white border text-gray-500'
+                  form.days.includes('daily')
+                    ? 'bg-violet-600 text-white'
+                    : 'bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400'
                 }`}>
                 Daily
               </button>
               {ALL_DAYS.map(day => (
-                <button key={day} type="button"
-                  onClick={() => toggleDay(day)}
+                <button key={day} type="button" onClick={() => toggleDay(day)}
                   className={`px-3 py-1 rounded-lg text-xs font-medium capitalize transition-colors ${
                     form.days.includes(day) && !form.days.includes('daily')
                       ? 'bg-violet-600 text-white'
-                      : 'bg-white border text-gray-500'
+                    : 'bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-500 dark:text-gray-400'
                   }`}>
                   {day}
                 </button>
@@ -147,9 +145,11 @@ export default function Reminders({ petId }) {
 
           <div className="flex gap-2 pt-1">
             <button type="button" onClick={() => setShowForm(false)}
-              className="flex-1 border rounded-xl py-1.5 text-sm text-gray-500 hover:bg-gray-50">Cancel</button>
+              className="flex-1 border border-gray-200 dark:border-gray-700 rounded-xl py-1.5 text-sm text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors">
+              Cancel
+            </button>
             <button type="submit" disabled={adding}
-              className="flex-1 bg-violet-600 text-white rounded-xl py-1.5 text-sm disabled:opacity-50">
+              className="flex-1 bg-violet-600 text-white rounded-xl py-1.5 text-sm hover:bg-violet-700 disabled:opacity-50 transition-colors">
               {adding ? 'Saving...' : 'Save Reminder'}
             </button>
           </div>
@@ -157,33 +157,41 @@ export default function Reminders({ petId }) {
       )}
 
       {/* Reminder list */}
-      {loading ? <p className="text-sm text-gray-400">Loading...</p> : reminders.length === 0 ? (
-        <p className="text-sm text-gray-400 text-center py-6">No reminders set yet</p>
+      {loading ? (
+        <p className="text-sm text-gray-400 dark:text-gray-600">Loading...</p>
+      ) : reminders.length === 0 ? (
+        <p className="text-sm text-gray-400 dark:text-gray-600 text-center py-6">No reminders set yet</p>
       ) : (
         <div className="flex flex-col gap-2">
           {reminders.map(r => (
-            <div key={r.id} className={`flex items-center justify-between rounded-xl px-4 py-3 transition-opacity ${
-              r.is_active ? 'bg-gray-50' : 'bg-gray-50 opacity-50'
-            }`}>
+            <div key={r.id}
+              className={`flex items-center justify-between bg-gray-50 dark:bg-gray-800 rounded-xl px-4 py-3 transition-opacity ${r.is_active ? 'opacity-100' : 'opacity-40'
+                }`}>
               <div className="flex items-center gap-3">
                 <span className="text-xl">{TYPE_EMOJI[r.reminder_type]}</span>
                 <div>
-                  <p className="text-sm font-medium text-gray-800">{r.title}</p>
-                  <p className="text-xs text-gray-400">
+                  <p className="text-sm font-medium text-gray-800 dark:text-white">{r.title}</p>
+                  <p className="text-xs text-gray-400 dark:text-gray-500">
                     {r.remind_at.slice(0, 5)} ·{' '}
-                    {r.days.includes('daily') ? 'Every day' : r.days.map(d => d.charAt(0).toUpperCase() + d.slice(1)).join(', ')}
+                    {r.days.includes('daily')
+                      ? 'Every day'
+                      : r.days.map(d => d.charAt(0).toUpperCase() + d.slice(1)).join(', ')}
                   </p>
                 </div>
               </div>
               <div className="flex items-center gap-3">
-                {/* Toggle active */}
+                {/* Toggle */}
                 <button onClick={() => toggleActive(r)}
-                  className={`w-10 h-5 rounded-full transition-colors relative ${r.is_active ? 'bg-violet-500' : 'bg-gray-300'}`}>
+                  className={`w-10 h-5 rounded-full transition-colors relative flex-shrink-0 ${r.is_active ? 'bg-violet-500' : 'bg-gray-300 dark:bg-gray-600'
+                    }`}>
                   <span className={`absolute top-0.5 w-4 h-4 bg-white rounded-full shadow transition-transform ${
                     r.is_active ? 'translate-x-5' : 'translate-x-0.5'
                   }`} />
                 </button>
-                <button onClick={() => handleDelete(r.id)} className="text-xs text-red-300 hover:text-red-500">✕</button>
+                <button onClick={() => handleDelete(r.id)}
+                  className="text-xs text-red-300 hover:text-red-500 dark:text-red-700 dark:hover:text-red-400 transition-colors">
+                  ✕
+                </button>
               </div>
             </div>
           ))}
